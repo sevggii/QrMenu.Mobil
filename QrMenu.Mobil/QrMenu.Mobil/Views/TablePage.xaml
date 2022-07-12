@@ -21,7 +21,7 @@
 
             <!--  https://docs.microsoft.com/tr-tr/xamarin/xamarin-forms/user-interface/collectionview/layout  -->
             <CollectionView   x:Name="collectV"
-                              ItemsSource="{Binding GrupluListe}"
+                              ItemsSource="{Binding GroupedList}"
                               IsGrouped="True">
                 <!--  ItemsSource="{Binding .}"
                               -->
