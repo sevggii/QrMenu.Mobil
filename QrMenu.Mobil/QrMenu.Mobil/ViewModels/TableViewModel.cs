@@ -14,8 +14,7 @@ using Xamarin.Forms;
 namespace QrMenu.Mobil.ViewModels
 {
     public class TableViewModel : BaseViewModel
-    {
-        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
+    { 
         public class Product
         {
             public int CategoryID { get; set; }
@@ -129,7 +128,7 @@ namespace QrMenu.Mobil.ViewModels
                     NotifyPropertyChanged();
                 }
             }
-        } //deneme
+        } //trial
         private IList<Table> _tableList { get; set; }
         public IList<Table> TableList
         {
@@ -147,19 +146,19 @@ namespace QrMenu.Mobil.ViewModels
                 }
             }
         }
-        private ObservableCollection<Grouping<string, Table>> _grupluListe { get; set; }
-        public ObservableCollection<Grouping<string, Table>> GrupluListe
+        private ObservableCollection<Grouping<string, Table>> _groupedlist { get; set; }
+        public ObservableCollection<Grouping<string, Table>> GroupedList
         {
             get
             {
-                return _grupluListe;
+                return _groupedlist;
             }
 
             set
             {
-                if (value != _grupluListe)
+                if (value != _groupedlist)
                 {
-                    _grupluListe = value;
+                    _groupedlist = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -173,7 +172,7 @@ namespace QrMenu.Mobil.ViewModels
             GetTableData(PartnerID, BranchID);
         }
 
-        public void OnSubmitFileDelete() //dosya silme 
+        public void OnSubmitFileDelete() //deleting file 
         {
             var backingFile = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "DENEMEEEEEEEEEEE.txt");
             File.Delete(backingFile);
@@ -192,15 +191,14 @@ namespace QrMenu.Mobil.ViewModels
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var tables = JsonConvert.DeserializeObject<List<Table>>(content);
-                //deneme
-             //   Root myDeserializedClass = JsonConvert.DeserializeObject<List<Root>>(content);
+            
                 var arrayy= JsonConvert.DeserializeObject<List<Root>>(content);
 
               /*  for (int i = 0; i < arrayy.Count; i++)
                 {
-                    string[] bolunecekHeaderName;
-                    bolunecekHeaderName = arrayy[i].MyArray[i].Tables[i].Name.Split(' ');
-                    tables[i].HeaderName = bolunecekHeaderName[0].ToString();
+                    string[] HeaderName;
+                    HeaderName = arrayy[i].MyArray[i].Tables[i].Name.Split(' ');
+                    tables[i].HeaderName = splitHeaderName[0].ToString();
                 }*/
 
                 for (int i = 0; i < tables.Count; i++)
@@ -218,9 +216,9 @@ namespace QrMenu.Mobil.ViewModels
                             break;
                     }
 
-                    string[] bolunecekHeaderName;
-                    bolunecekHeaderName = tables[i].Name.Split(' ');
-                    tables[i].HeaderName = bolunecekHeaderName[0].ToString();
+                    string[] splitHeaderName;
+                    splitHeaderName = tables[i].Name.Split(' ');
+                    tables[i].HeaderName = splitHeaderName[0].ToString();
                 }
                 TableList = new ObservableCollection<Table>(tables);
             }
@@ -232,20 +230,18 @@ namespace QrMenu.Mobil.ViewModels
             BindingWithGrouping();
         }
 
-        public void BindingWithGrouping() //bind ederken artık bu metod kullanılacak.
+        public void BindingWithGrouping() //when bind this method will now be used.
         {
             var result = TableList;
 
-            //gruplama;
-            GrupluListe = new ObservableCollection<Grouping<string, Table>>
+            GroupedList = new ObservableCollection<Grouping<string, Table>>
               (result.
               OrderBy(c => c.HeaderName).
               GroupBy(c => c.HeaderName.ToString()).Select
               (k => new Grouping<string, Table>(k.Key, k)));
         }
 
-        #region post,delete metotları
-        //using Post to save data
+        #region post,delete methods
         private async void PostDataAsync()
         {
             var url = "http://api.kodegitimi.com/api/TableList?PartnerID=2&BranchID=2";
@@ -260,7 +256,6 @@ namespace QrMenu.Mobil.ViewModels
             };
 
             //similary 'PutAsync()' to update the data.
-            //yukarıdakilerden güncellenecek olanı değiştir, aşağıda postasync yerine Putasync yap. Bitti :))
 
             var jsonObject = JsonConvert.SerializeObject(newTable);
             var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
@@ -284,7 +279,7 @@ namespace QrMenu.Mobil.ViewModels
             IsLoading = true;
             HttpClient httpClient = new HttpClient();
 
-            var id = 4; //whatever id you wanna delete
+            var id = 4;
             var uri = new Uri(string.Format(url, id));
 
             var response = await httpClient.DeleteAsync(uri);

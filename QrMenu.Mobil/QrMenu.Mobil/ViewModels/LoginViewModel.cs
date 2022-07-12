@@ -117,23 +117,23 @@ namespace QrMenu.Mobil.ViewModels
 
                     // https://docs.microsoft.com/tr-tr/xamarin/android/platform/files/
 
-                    if (MySwitch) //KAYDET
+                    if (MySwitch) 
                         SaveLogin(Userr.PartnerID.ToString(), Userr.BranchID.ToString());
 
                     else
-                        //!!!!!! BURADA VİEWMODELE VERİLER GİTSE, VİEWMODEL İÇERİSİNDE ANA SAYFA AÇILSA??
-                        App.Current.MainPage = new TablePage(Userr.PartnerID, Userr.BranchID);
+                        //data goes to viewmodel from here and homepage opens?
+                        App.Current.MainPage = new TablePage(Userr.PartnerID, Userr.BranchID); //no back buttons
 
-                    //ÜSTTEKİ KULLANIMDA SAYFADA GERİ BUTONU BULUNMAZ. AŞAĞIDAKİNDE GERİYE GİDİLEBİLİR.
-                    //   App.Current.MainPage.Navigation.PushAsync(new TablePage(Userr.PartnerID, Userr.BranchID));
-                    //App.Current.MainPage.DisplayAlert("BAŞARILI GİRİŞ :)))", "Sayfaya Yönlendiriliyorsunuz..", "OK");
+                        //There is a back button.
+                        //App.Current.MainPage.Navigation.PushAsync(new TablePage(Userr.PartnerID, Userr.BranchID));
+                        //App.Current.MainPage.DisplayAlert("BAŞARILI GİRİŞ ;)", "Sayfaya Yönlendiriliyor..", "OK");
                 }
                 else
                 {
-                    App.Current.MainPage.DisplayAlert("HATA", "Email veya Şifre yanlış :(" +
-                        "Lütfen Tekrar Deneyin.", "OK");
+                    App.Current.MainPage.DisplayAlert("HATA", "Email veya Şifre yanlış :(" + "Lütfen Tekrar Deneyin.", "OK");
                 }
             }
+
             else
             {
                 Debug.WriteLine("An error occured while loading data");
@@ -148,15 +148,16 @@ namespace QrMenu.Mobil.ViewModels
             }
 
 
-            //okusun;
-            string icerik = "";
+            //reads data
+            //string content = "";
             using (var reader = new StreamReader(backingFile, true))
             {
                 string text = File.ReadAllText(backingFile);
-                //split ve yolla.
-                string[] bolunecekIcerik;
-                bolunecekIcerik = text.Split(' ');
-                App.Current.MainPage = new TablePage(int.Parse(bolunecekIcerik[0]), int.Parse(bolunecekIcerik[1]));
+
+                //splits and routes data
+                string[] content;
+                content = text.Split(' ');
+                App.Current.MainPage = new TablePage(int.Parse(content[0]), int.Parse(content[1]));
             }
         }
     }
