@@ -121,10 +121,9 @@ namespace QrMenu.Mobil.ViewModels
                         SaveLogin(Userr.PartnerID.ToString(), Userr.BranchID.ToString());
 
                     else
-                        //data goes to viewmodel from here and homepage opens?
-                        App.Current.MainPage = new TablePage(Userr.PartnerID, Userr.BranchID); //no back buttons
+                        App.Current.MainPage = new TablePage(Userr.PartnerID, Userr.BranchID); //no back button
 
-                        //There is a back button.
+                        //back button
                         //App.Current.MainPage.Navigation.PushAsync(new TablePage(Userr.PartnerID, Userr.BranchID));
                         //App.Current.MainPage.DisplayAlert("BAŞARILI GİRİŞ ;)", "Sayfaya Yönlendiriliyor..", "OK");
                 }
@@ -148,13 +147,10 @@ namespace QrMenu.Mobil.ViewModels
             }
 
 
-            //reads data
-            //string content = "";
             using (var reader = new StreamReader(backingFile, true))
             {
                 string text = File.ReadAllText(backingFile);
 
-                //splits and routes data
                 string[] content;
                 content = text.Split(' ');
                 App.Current.MainPage = new TablePage(int.Parse(content[0]), int.Parse(content[1]));
