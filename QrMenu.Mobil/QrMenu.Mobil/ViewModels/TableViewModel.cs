@@ -128,7 +128,7 @@ namespace QrMenu.Mobil.ViewModels
                     NotifyPropertyChanged();
                 }
             }
-        } //trial
+        }
         private IList<Table> _tableList { get; set; }
         public IList<Table> TableList
         {
@@ -255,8 +255,7 @@ namespace QrMenu.Mobil.ViewModels
 
             };
 
-            //similary 'PutAsync()' to update the data.
-
+         
             var jsonObject = JsonConvert.SerializeObject(newTable);
             var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
 
@@ -272,7 +271,6 @@ namespace QrMenu.Mobil.ViewModels
             IsLoading = false;
         }
 
-        // 'DeleteAsync()' to delete the data - is similar to 'GetAsync()'
         private async void DeleteDataAsync()
         {
             var url = "http://api.kodegitimi.com/api/TableList?PartnerID=2&BranchID=2";
